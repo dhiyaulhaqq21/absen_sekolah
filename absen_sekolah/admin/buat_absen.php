@@ -1,12 +1,4 @@
 <?php
-session_start();
-include '../config/koneksi.php';
-
-// proteksi admin
-if (!isset($_SESSION['level']) || $_SESSION['level'] != 'admin') {
-    header("Location: ../auth/login.php");
-    exit;
-}
 
 // fungsi generate token
 function generateToken($length = 6) {
