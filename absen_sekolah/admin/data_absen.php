@@ -1,11 +1,6 @@
 <?php
-session_start();
-include '../config/koneksi.php';
-include '../lib/phpqrcode/qrlib.php';
+include './lib/phpqrcode/qrlib.php';
 
-if ($_SESSION['level'] != 'admin') {
-    header("Location: ../auth/login.php");
-}
 
 $data = mysqli_query($conn, "SELECT * FROM absensi_sesi ORDER BY id DESC");
 ?>
@@ -23,7 +18,6 @@ $data = mysqli_query($conn, "SELECT * FROM absensi_sesi ORDER BY id DESC");
 <nav class="navbar navbar-dark bg-dark">
     <div class="container-fluid">
         <span class="navbar-brand">Data Absensi</span>
-        <a href="dashboard.php" class="btn btn-light btn-sm">Dashboard</a>
     </div>
 </nav>
 
@@ -31,7 +25,7 @@ $data = mysqli_query($conn, "SELECT * FROM absensi_sesi ORDER BY id DESC");
 
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h4>Daftar Sesi Absensi</h4>
-        <a href="buat_absen.php" class="btn btn-primary">+ Buat Absensi</a>
+        <a href="index.php?page=buat_absen" class="btn btn-primary">+ Buat Absensi</a>
     </div>
 
     <div class="card shadow-sm">
@@ -73,7 +67,7 @@ $data = mysqli_query($conn, "SELECT * FROM absensi_sesi ORDER BY id DESC");
                                 <?php
                                 $link = "http://localhost/absensi/siswa/scan.php?token=" . $d['token'];
 
-                                $file = "../assets/qr/" . $d['token'] . ".png";
+                                $file = "./assets/qr/" . $d['token'] . ".png";
 
                                 // jika file belum ada, buat QR
                                 if (!file_exists($file)) {
@@ -81,18 +75,19 @@ $data = mysqli_query($conn, "SELECT * FROM absensi_sesi ORDER BY id DESC");
                                 }
                                 ?>
 
-                                <img src="../assets/qr/<?= $d['token'] ?>.png" width="100">                          </td>
+                                <img src="./assets/qr/<?= $d['token'] ?>.png" width="100">                          </td>
 
                             <td>
-                                <a href="../assets/qr/<?= $d['token'] ?>.png" 
+                                <a href="./assets/qr/<?= $d['token'] ?>.png" 
                                    download 
                                    class="btn btn-success btn-sm">
                                    Download
                                 </a>
+                                <a href="index.php?page=hapus_absen&id=<?= $d['id'] ?>"
+                                class="btn btn-danger btn-sm"
+                                onclick="return confirm('Yakin ingin menghapus data ini?')">
 
-                                <a href="rekap.php?tanggal=<?= $d['tanggal'] ?>" 
-                                   class="btn btn-warning btn-sm">
-                                   Rekap
+                                Hapus
                                 </a>
                             </td>
                             <td>
