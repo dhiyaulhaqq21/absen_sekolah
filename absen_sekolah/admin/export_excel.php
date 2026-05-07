@@ -1,6 +1,5 @@
 <?php
 include '../config/koneksi.php';
-
 header("Content-type: application/vnd-ms-excel");
 header("Content-Disposition: attachment; filename=rekap_absensi.xls");
 
